@@ -1,34 +1,51 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import { useEffect, useState } from 'react'
 import './App.css'
+import { getMovieList, searchMovie } from "./Api"
 
-function App() {
-  const [count, setCount] = useState(0)
+const App = () => {
+
+  const [popularMovies, setPopularMovies] = useState([])
+
+  useEffect(() => {
+    getMovieList().then((result) => {
+      setPopularMovies(result)
+    })
+  }, [])
+
+  const PopularMovieList = () => {
+    return popularMovies.map((movie, i) => {
+      return (
+        <div className="Movie-wrapper" key={i}>
+          <div className="Movie-title">{movie.title}</div>
+          <img className="Movie-image" src={`${import.meta.env.VITE_REACT_APP_BASEIMGURL}/${movie.poster_path}`} alt={movie.title} width="300px" />
+          <div className="Movie-date">release : {movie.release_date}</div>
+          <div className="Movie-rate">{movie.vote_average}</div>
+        </div>
+      )
+    })
+  }
+
+  const search = async(q) => {
+    if (q.length > 3) {
+      const query = await searchMovie(q)
+      setPopularMovies(query.results)
+    }
+  }
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <div className="App">
+      <header className="App-header">
+        <h1>MOVIE APPS</h1>
+          <input
+            className="Movie-search"
+            placeholder="cari film"
+            onChange={({ target }) => search(target.value)}
+          />
+        <div className="Movie-container">
+          <PopularMovieList />
+        </div>
+      </header>
+    </div>
   )
 }
 
