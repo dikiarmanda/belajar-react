@@ -1,35 +1,73 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+export default function App() {
 
-function App() {
-  const [count, setCount] = useState(0)
+  const groceryItems = [
+    {
+      id: 1,
+      name: 'Kopi Bubuk',
+      quantity: 2,
+      checked: true,
+    },
+    {
+      id: 2,
+      name: 'Gula Pasir',
+      quantity: 5,
+      checked: false,
+    },
+    {
+      id: 3,
+      name: 'Air Mineral',
+      quantity: 3,
+      checked: false,
+    },
+  ]
 
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+      <h1>Catatan Belanjaku 📝</h1>
+      <form className="add-form">
+        <h3>Hari ini belanja apa kita?</h3>
+        <div>
+          <select>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+          </select>
+          <input type="text" placeholder="nama barang..." />
+        </div>
+        <button>Tambah</button>
+      </form>
+      <div className="list">
+        <ul>
+          <li>
+            <input type="checkbox" checked="true" />
+            <span>1 Kopi</span>
+            <button>&times;</button>
+          </li>
+          <li>
+            <input type="checkbox" />
+            <span>5 Gula Pasir</span>
+            <button>&times;</button>
+          </li>
+          <li>
+            <input type="checkbox" />
+            <span>3 Air Mineral</span>
+            <button>&times;</button>
+          </li>
+        </ul>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
+      <div className="actions">
+        <select>
+          <option value="input">Urutkan berdasarkan urutan input</option>
+          <option value="name">Urutkan berdasarkan nama barang</option>
+          <option value="checked">Urutkan berdasarkan ceklis</option>
+        </select>
+        <button>Bersihkan Daftar</button>
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <footer className="stats">
+        Ada 10 barang di daftar belanjaan, 5 barang sudah dibeli (50%)
+      </footer>
     </>
   )
 }
-
-export default App
