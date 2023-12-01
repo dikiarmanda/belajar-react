@@ -36,15 +36,16 @@
   box-sizing: border-box;
 }
 
-html {
+/* html {
   font-size: 62.5%;
-}
+} */
 
 body {
   font-family: 'Inter', sans-serif;
   color: var(--color-text);
   background-color: var(--color-background-900);
   padding: 2.4rem;
+  justify-content: center;
 }
 
 /* NavBar */
