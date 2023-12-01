@@ -45,7 +45,7 @@ export default function App() {
       <Header />
       <Form onAddItem={handleAddItem}/>
       <GroceryList items={items} onDeleteItem={handleDeleteItem} onToogleItem={handleToggleItem} onClearItems={handleClearItems}/>
-      <Footer />
+      <Footer items={items}/>
     </div>
   );
 }
@@ -141,10 +141,16 @@ function Item({ item, onDeleteItem, onToogleItem }) {
   )
 }
 
-function Footer() {
+function Footer({ items }) {
+  if (items.length == 0) return <footer className="stats">Daftar belanja kosong</footer>
+
+  const totalItems = items.length
+  const checkedItems = items.filter((item) => item.checked).length
+  const precentage = Math.round((checkedItems/totalItems) * 100)
+
   return (
     <footer className="stats">
-      Ada 10 barang di daftar belanjaan, 5 barang sudah dibeli (50%)
+      Ada {totalItems} barang di daftar belanjaan, {checkedItems} barang sudah dibeli ({precentage}%)
     </footer>
   );
 }
