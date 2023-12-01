@@ -28,11 +28,23 @@ export default function App() {
     setItems([...items, item])
   }
 
+  function handleDeleteItem(id) {
+    setItems((items) => items.filter((item) => item.id !== id))
+  }
+
+  function handleToggleItem(id) {
+    setItems((items) => items.map((item) => item.id === id ? {...item, checked: !item.checked} : item))
+  }
+
+  function handleClearItems() {
+    setItems([])
+  }
+
   return (
     <div className="App">
       <Header />
       <Form onAddItem={handleAddItem}/>
-      <GroceryList items={items}/>
+      <GroceryList items={items} onDeleteItem={handleDeleteItem} onToogleItem={handleToggleItem} onClearItems={handleClearItems}/>
       <Footer />
     </div>
   );
@@ -79,13 +91,13 @@ function Form({ onAddItem }) {
   );
 }
 
-function GroceryList({ items }) {
+function GroceryList({ items, onDeleteItem, onToogleItem, onClearItems }) {
   return (
     <>
       <div className="list">
         <ul>
           {items.map((item) => (
-            <Item item={item} key={item.id}/>
+            <Item item={item} key={item.id} onDeleteItem={onDeleteItem} onToogleItem={onToogleItem}/>
           ))}
         </ul>
       </div>
@@ -95,20 +107,20 @@ function GroceryList({ items }) {
           <option value="name">Urutkan berdasarkan nama barang</option>
           <option value="checked">Urutkan berdasarkan ceklis</option>
         </select>
-        <button>Bersihkan Daftar</button>
+        <button onClick={onClearItems}>Bersihkan Daftar</button>
       </div>
     </>
   );
 }
 
-function Item({ item }) {
+function Item({ item, onDeleteItem, onToogleItem }) {
   return (
     <li key={item.id}>
-      <input type="checkbox" checked={item.checked} />
+      <input type="checkbox" checked={item.checked} onChange={() => onToogleItem(item.id)}/>
       <span style={item.checked ? {  textDecoration: 'line-through' } : {}}>
         {item.quantity} {item.name}
       </span>
-      <button>&times;</button>
+      <button onClick={() => onDeleteItem(item.id)}>&times;</button>
     </li>
   )
 }
